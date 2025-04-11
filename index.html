@@ -258,6 +258,25 @@
         }
         
         @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+                width: 100%;
+            }
+
+            .tab-button {
+                padding: 0.5rem 1rem;
+                width: 100%;
+                text-align: center;
+            }
+
             .stats-container {
                 flex-direction: column;
             }
@@ -310,7 +329,6 @@
                 GreenBean
             </div>
             <div class="nav-links">
-                <button class="tab-button" onclick="openTab('map')">Mappa</button>
                 <button class="tab-button" onclick="openTab('leaderboard')">Classifica</button>
                 <button class="tab-button" onclick="openTab('profile')">Profilo</button>
             </div>
