@@ -76,16 +76,31 @@
                 <i class="fas fa-truck"></i>
                 GreenBean Courier
             </div>
-            <div class="nav-links">
-                <button class="tab-button" onclick="openTab('collections')">Ritiri</button>
-                <button class="tab-button" onclick="openTab('map')">Mappa</button>
-                <button class="tab-button" onclick="openTab('history')">Storico</button>
-            </div>
         </nav>
     </header>
 
     <main>
-        <div id="collections" class="tab-content active">
+        <div id="map-section">
+            <h2>Mappa Ritiri</h2>
+            <div id="map-container"></div>
+            <div class="map-legend">
+                <h3>Legenda</h3>
+                <div class="legend-item">
+                    <div class="legend-icon" style="background-color: #2e7d32;"></div>
+                    <span>Sotto 50%</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon" style="background-color: #ff9800;"></div>
+                    <span>Sopra 50%</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon" style="background-color: #f44336;"></div>
+                    <span>Sopra 80%</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="collections-section">
             <h2>Ritiri da Effettuare</h2>
             <div class="collection-card">
                 <div class="collection-header">
@@ -114,27 +129,7 @@
             </div>
         </div>
 
-        <div id="map" class="tab-content">
-            <h2>Mappa Ritiri</h2>
-            <div id="map-container"></div>
-            <div class="map-legend">
-                <h3>Legenda</h3>
-                <div class="legend-item">
-                    <div class="legend-icon" style="background-color: #2e7d32;"></div>
-                    <span>Sotto 50%</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-icon" style="background-color: #ff9800;"></div>
-                    <span>Sopra 50%</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-icon" style="background-color: #f44336;"></div>
-                    <span>Sopra 80%</span>
-                </div>
-            </div>
-        </div>
-
-        <div id="history" class="tab-content">
+        <div id="history-section">
             <h2>Storico Ritiri</h2>
             <div class="collection-card">
                 <div class="collection-header">
@@ -160,12 +155,10 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
     <script>
-        function openTab(tabName) {
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(tab => tab.classList.remove('active'));
-            document.getElementById(tabName).classList.add('active');
-            if (tabName === 'map') initMap();
-        }
+        // Initialize map when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initMap();
+        });
 
         function confirmCollection(id) {
             if (confirm('Confermare il ritiro dei fondi di caffè?')) {
