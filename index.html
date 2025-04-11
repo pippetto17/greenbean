@@ -262,6 +262,44 @@
                 flex-direction: column;
             }
         }
+
+        .leaderboard-container {
+            margin-top: 1rem;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background-color: white;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .rank {
+            font-size: 1.5rem;
+            font-weight: bold;
+            width: 40px;
+            color: #2e7d32;
+        }
+
+        .user-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .medal {
+            font-size: 1.5rem;
+        }
+
+        .qr-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -273,6 +311,7 @@
             </div>
             <div class="nav-links">
                 <button class="tab-button" onclick="openTab('map')">Mappa</button>
+                <button class="tab-button" onclick="openTab('leaderboard')">Classifica</button>
                 <button class="tab-button" onclick="openTab('profile')">Profilo</button>
             </div>
         </nav>
@@ -325,6 +364,36 @@
                 </ul>
             </div>
         </div>
+
+        <div id="leaderboard" class="tab-content">
+            <h2>Classifica Riciclatori</h2>
+            <div class="leaderboard-container">
+                <div class="leaderboard-item">
+                    <div class="rank">1</div>
+                    <div class="user-info">
+                        <strong>Laura Bianchi</strong>
+                        <span>45 kg riciclati</span>
+                    </div>
+                    <div class="medal">🥇</div>
+                </div>
+                <div class="leaderboard-item">
+                    <div class="rank">2</div>
+                    <div class="user-info">
+                        <strong>Mario Rossi</strong>
+                        <span>15 kg riciclati</span>
+                    </div>
+                    <div class="medal">🥈</div>
+                </div>
+                <div class="leaderboard-item">
+                    <div class="rank">3</div>
+                    <div class="user-info">
+                        <strong>Giuseppe Verdi</strong>
+                        <span>12 kg riciclati</span>
+                    </div>
+                    <div class="medal">🥉</div>
+                </div>
+            </div>
+        </div>
         
         <div id="profile" class="tab-content">
             <div class="profile-header">
@@ -339,16 +408,16 @@
             
             <div class="stats-container">
                 <div class="stat-card">
-                    <h3>Punti Totali</h3>
-                    <div class="value">750</div>
+                    <h3>Credito Disponibile</h3>
+                    <div class="value">€3.75</div>
                 </div>
                 <div class="stat-card">
                     <h3>Kg di Caffè Riciclati</h3>
                     <div class="value">15</div>
                 </div>
-                <div class="stat-card">
-                    <h3>Livello</h3>
-                    <div class="value">Oro</div>
+                <div class="stat-card qr-card">
+                    <h3>Il Tuo QR Code</h3>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=USER123" alt="QR Code" style="width: 100px; height: 100px;">
                 </div>
             </div>
             
@@ -392,14 +461,17 @@
             </ul>
             
             <div style="margin-top: 2rem; background-color: #f9f9f9; padding: 1rem; border-radius: 8px;">
-                <h3 style="color: #2e7d32; margin-bottom: 0.5rem;">Premi Disponibili</h3>
-                <p>Utilizza i tuoi punti per ottenere sconti e regali presso i nostri partner:</p>
+                <h3 style="color: #2e7d32; margin-bottom: 0.5rem;">Gift Card Disponibili</h3>
+                <p>Per ogni kg di fondi di caffè ricevi €0.25. Raggiungi la soglia minima per riscattare le gift card:</p>
                 <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
-                    <li>500 punti: Buono sconto 5€ presso i bar partner</li>
-                    <li>1000 punti: Tazza riutilizzabile GreenBean</li>
-                    <li>2000 punti: Kit per il compostaggio domestico</li>
-                    <li>5000 punti: Corso di giardinaggio sostenibile</li>
+                    <li>€5: Amazon Gift Card</li>
+                    <li>€10: Decathlon Gift Card</li>
+                    <li>€15: Feltrinelli Gift Card</li>
+                    <li>€20: Zalando Gift Card</li>
                 </ul>
+                <button style="margin-top: 1rem; padding: 0.5rem 1rem; background-color: #2e7d32; color: white; border: none; border-radius: 4px; cursor: pointer;" onclick="alert('Funzionalità in arrivo!')">
+                    Riscatta Gift Card
+                </button>
             </div>
         </div>
     </main>

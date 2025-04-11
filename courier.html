@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenBean Courier - Gestione Ritiri</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+
+        .collection-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .collection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .collection-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #ff9800;
+            color: white;
+        }
+
+        .status-completed {
+            background-color: #2e7d32;
+            color: white;
+        }
+
+        .collect-button {
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        .collect-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #map-container {
+            height: 500px;
+            width: 100%;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+        }
+
+        .leaflet-popup-content {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-truck"></i>
+                GreenBean Courier
+            </div>
+            <div class="nav-links">
+                <button class="tab-button" onclick="openTab('collections')">Ritiri</button>
+                <button class="tab-button" onclick="openTab('map')">Mappa</button>
+                <button class="tab-button" onclick="openTab('history')">Storico</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div id="collections" class="tab-content active">
+            <h2>Ritiri da Effettuare</h2>
+            <div class="collection-card">
+                <div class="collection-header">
+                    <h3>Bar Università - Ingegneria</h3>
+                    <span class="collection-status status-pending">In attesa</span>
+                </div>
+                <p>Capacità: 80%</p>
+                <p>Ultimo ritiro: 3 giorni fa</p>
+                <p>Indirizzo: Via Cambridge 32</p>
+                <button class="collect-button" onclick="confirmCollection(1)">
+                    Conferma Ritiro
+                </button>
+            </div>
+
+            <div class="collection-card">
+                <div class="collection-header">
+                    <h3>Caffè della Biblioteca</h3>
+                    <span class="collection-status status-pending">In attesa</span>
+                </div>
+                <p>Capacità: 75%</p>
+                <p>Ultimo ritiro: 4 giorni fa</p>
+                <p>Indirizzo: Via Oxford 15</p>
+                <button class="collect-button" onclick="confirmCollection(2)">
+                    Conferma Ritiro
+                </button>
+            </div>
+        </div>
+
+        <div id="map" class="tab-content">
+            <h2>Mappa Ritiri</h2>
+            <div id="map-container"></div>
+            <div class="map-legend">
+                <h3>Legenda</h3>
+                <div class="legend-item">
+                    <div class="legend-icon" style="background-color: #2e7d32;"></div>
+                    <span>Sotto 50%</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon" style="background-color: #ff9800;"></div>
+                    <span>Sopra 50%</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon" style="background-color: #f44336;"></div>
+                    <span>Sopra 80%</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="history" class="tab-content">
+            <h2>Storico Ritiri</h2>
+            <div class="collection-card">
+                <div class="collection-header">
+                    <h3>Bar Scienze</h3>
+                    <span class="collection-status status-completed">Completato</span>
+                </div>
+                <p>Data: 12/04/2025</p>
+                <p>Quantità: 8.5 kg</p>
+                <p>Operatore: Mario Rossi</p>
+            </div>
+
+            <div class="collection-card">
+                <div class="collection-header">
+                    <h3>Coffee Corner</h3>
+                    <span class="collection-status status-completed">Completato</span>
+                </div>
+                <p>Data: 11/04/2025</p>
+                <p>Quantità: 6.2 kg</p>
+                <p>Operatore: Mario Rossi</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    <script>
+        function openTab(tabName) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            if (tabName === 'map') initMap();
+        }
+
+        function confirmCollection(id) {
+            if (confirm('Confermare il ritiro dei fondi di caffè?')) {
+                // Qui andrebbe l'API call per confermare il ritiro
+                alert('Ritiro confermato con successo!');
+                // Aggiorna l'interfaccia
+                const button = event.target;
+                button.disabled = true;
+                button.textContent = 'Ritiro Completato';
+                const status = button.parentElement.querySelector('.collection-status');
+                status.className = 'collection-status status-completed';
+                status.textContent = 'Completato';
+            }
+        }
+
+        function initMap() {
+            const torVergataCoords = [41.8531, 12.6233];
+            const map = L.map('map-container').setView(torVergataCoords, 15);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            const lockers = [
+                {
+                    name: "Bar Università - Ingegneria",
+                    coords: [41.8545, 12.6250],
+                    capacity: 80,
+                    address: "Via Cambridge 32"
+                },
+                {
+                    name: "Caffè della Biblioteca",
+                    coords: [41.8520, 12.6220],
+                    capacity: 75,
+                    address: "Via Oxford 15"
+                },
+                {
+                    name: "Bar Scienze",
+                    coords: [41.8535, 12.6240],
+                    capacity: 45,
+                    address: "Via Harvard 22"
+                }
+            ];
+
+            lockers.forEach(locker => {
+                const color = locker.capacity > 80 ? '#f44336' : 
+                             locker.capacity > 50 ? '#ff9800' : '#2e7d32';
+                
+                const marker = L.circleMarker(locker.coords, {
+                    radius: 8,
+                    fillColor: color,
+                    color: '#fff',
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(map);
+
+                marker.bindPopup(`
+                    <strong>${locker.name}</strong><br>
+                    Capacità: ${locker.capacity}%<br>
+                    Indirizzo: ${locker.address}
+                `);
+            });
+        }
+    </script>
+</body>
+</html>
